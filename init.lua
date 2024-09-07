@@ -348,6 +348,35 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
+
+      function vim.getVisualSelection()
+        vim.cmd 'noau normal! "vy"'
+        local text = vim.fn.getreg 'v'
+        vim.fn.setreg('v', {})
+
+        text = string.gsub(text, '\n', '')
+        if #text > 0 then
+          return text
+        else
+          return ''
+        end
+      end
+
+      local keymap = vim.keymap.set
+      local tb = require 'telescope.builtin'
+      local opts = { noremap = true, silent = true }
+
+      keymap('n', '<space>g', ':Telescope current_buffer_fuzzy_find<cr>', opts)
+      keymap('v', '<space>g', function()
+        local text = vim.getVisualSelection()
+        tb.current_buffer_fuzzy_find { default_text = text }
+      end, opts)
+
+      keymap('n', '<space>G', ':Telescope live_grep<cr>', opts)
+      keymap('v', '<space>G', function()
+        local text = vim.getVisualSelection()
+        tb.live_grep { default_text = text }
+      end, opts)
     end,
   },
 
@@ -621,7 +650,9 @@ require('lazy').setup({
       },
     },
   },
-
+  {
+    'github/copilot.vim',
+  },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
@@ -813,6 +844,30 @@ require('lazy').setup({
         additional_vim_regex_highlighting = { 'ruby' },
       },
       indent = { enable = true, disable = { 'ruby' } },
+    },
+    {
+      'linux-cultist/venv-selector.nvim',
+      dependencies = {
+        'neovim/nvim-lspconfig',
+        'mfussenegger/nvim-dap',
+        'mfussenegger/nvim-dap-python', --optional
+        { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+      },
+      lazy = false,
+      branch = 'regexp', -- This is the regexp branch, use this for the new version
+      config = function()
+        require('venv-selector').setup()
+      end,
+      keys = {
+        { ',v', '<cmd>VenvSelect<cr>' },
+      },
+    },
+    {
+      'stevearc/oil.nvim',
+      ---@module 'oil'
+      opts = {
+        default_file_explorer = true,
+      },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
