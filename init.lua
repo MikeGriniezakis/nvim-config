@@ -850,37 +850,37 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
-    {
-      'linux-cultist/venv-selector.nvim',
-      dependencies = {
-        'neovim/nvim-lspconfig',
-        'mfussenegger/nvim-dap',
-        'mfussenegger/nvim-dap-python', --optional
-        { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
-      },
-      lazy = false,
-      branch = 'regexp', -- This is the regexp branch, use this for the new version
-      config = function()
-        require('venv-selector').setup()
-      end,
-      keys = {
-        { ',v', '<cmd>VenvSelect<cr>' },
-      },
+  },
+  {
+    'linux-cultist/venv-selector.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'mfussenegger/nvim-dap',
+      'mfussenegger/nvim-dap-python', --optional
+      { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
     },
-    {
-      'stevearc/oil.nvim',
-      ---@module 'oil'
-      opts = {
-        default_file_explorer = true,
-      },
+    lazy = false,
+    branch = 'regexp', -- This is the regexp branch, use this for the new version
+    config = function()
+      require('venv-selector').setup()
+    end,
+    keys = {
+      { ',v', '<cmd>VenvSelect<cr>' },
     },
+  },
+  {
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    opts = {
+      default_file_explorer = true,
+    },
+  },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
     --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
-  },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
