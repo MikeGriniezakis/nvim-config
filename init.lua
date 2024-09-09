@@ -678,12 +678,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -725,7 +725,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = false },
+          ['<enter>'] = cmp.mapping.confirm { select = false },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -789,6 +789,14 @@ require('lazy').setup({
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
+    end,
+  },
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    event = 'VimEnter',
+    config = function()
+      require('lualine').setup {}
     end,
   },
 
@@ -868,6 +876,72 @@ require('lazy').setup({
       { ',v', '<cmd>VenvSelect<cr>' },
     },
   },
+  { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap', 'nvim-neotest/nvim-nio' } },
+  {
+    'folke/trouble.nvim',
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = 'Trouble',
+    keys = {
+      {
+        '<leader>xx',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Diagnostics (Trouble)',
+      },
+      {
+        '<leader>xX',
+        '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
+        desc = 'Buffer Diagnostics (Trouble)',
+      },
+      {
+        '<leader>cs',
+        '<cmd>Trouble symbols toggle focus=false<cr>',
+        desc = 'Symbols (Trouble)',
+      },
+      {
+        '<leader>cl',
+        '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
+        desc = 'LSP Definitions / references / ... (Trouble)',
+      },
+      {
+        '<leader>xL',
+        '<cmd>Trouble loclist toggle<cr>',
+        desc = 'Location List (Trouble)',
+      },
+      {
+        '<leader>xQ',
+        '<cmd>Trouble qflist toggle<cr>',
+        desc = 'Quickfix List (Trouble)',
+      },
+    },
+  },
+  {
+    'windwp/nvim-ts-autotag',
+    setup = function()
+      require('nvim-ts-autotag').setup {
+        opts = {
+          enable_close = true, -- Auto close tags
+          enable_rename = true, -- Auto rename pairs of tags
+          enable_close_on_slash = true, -- Auto close on trailing </
+        },
+      }
+    end,
+  },
+
+  {
+    'folke/noice.nvim',
+    event = 'VeryLazy',
+    opts = {
+      -- add any options here
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      'MunifTanjim/nui.nvim',
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      'rcarriga/nvim-notify',
+    },
+  },
   {
     'stevearc/oil.nvim',
     ---@module 'oil'
@@ -875,12 +949,12 @@ require('lazy').setup({
       default_file_explorer = true,
     },
   },
-    -- There are additional nvim-treesitter modules that you can use to interact
-    -- with nvim-treesitter. You should go explore a few and see what interests you:
-    --
-    --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-    --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-    --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+  -- There are additional nvim-treesitter modules that you can use to interact
+  -- with nvim-treesitter. You should go explore a few and see what interests you:
+  --
+  --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
+  --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+  --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
